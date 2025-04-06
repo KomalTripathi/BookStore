@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import Logout from "../components/Logout"; // make sure this path is correct
+import Logout from "../components/Logout";
 import { useAuth } from "../context/AuthProvider";
 
 function AdminDashboard() {
   const [tab, setTab] = useState("books");
   const [books, setBooks] = useState([]);
   const [users, setUsers] = useState([]);
+  const [popularBooks, setPopularBooks] = useState([]);
   const [form, setForm] = useState({ name: "", price: "", category: "", image: "", title: "" });
   const [authUser] = useAuth();
 
@@ -29,9 +30,19 @@ function AdminDashboard() {
     }
   };
 
+  const fetchPopularBooks = async () => {
+    try {
+      const res = await axios.get("http://localhost:4001/book/popular");
+      setPopularBooks(res.data);
+    } catch (err) {
+      toast.error("Failed to fetch popular books");
+    }
+  };
+
   useEffect(() => {
     fetchBooks();
     fetchUsers();
+    fetchPopularBooks();
   }, []);
 
   const handleAddBook = async () => {
@@ -40,6 +51,7 @@ function AdminDashboard() {
       toast.success("Book added!");
       setForm({ name: "", price: "", category: "", image: "", title: "" });
       fetchBooks();
+      fetchPopularBooks();
     } catch {
       toast.error("Error adding book");
     }
@@ -50,6 +62,7 @@ function AdminDashboard() {
       await axios.delete(`http://localhost:4001/admin/delete-book/${id}`);
       toast.success("Book deleted");
       fetchBooks();
+      fetchPopularBooks();
     } catch {
       toast.error("Error deleting");
     }
@@ -121,10 +134,18 @@ function AdminDashboard() {
       {/* Book Popularity */}
       {tab === "popularity" && (
         <div className="grid gap-4">
-          {books.sort((a, b) => b.price - a.price).map((book) => (
-            <div key={book._id} className="p-4 border rounded shadow">
-              <p><strong>{book.name}</strong> — ₹{book.price}</p>
-              <p>Category: {book.category}</p>
+          {popularBooks.map((book, index) => (
+            <div key={book._id} className="p-4 border rounded shadow flex justify-between items-center">
+              <div>
+                <p className="font-semibold text-lg">{index + 1}. {book.name}</p>
+                <p className="text-sm text-gray-600">Price: ₹{book.price}</p>
+                <p className="text-sm text-gray-500">Category: {book.category}</p>
+              </div>
+              <div className="text-right text-sm">
+                <p className="font-bold">
+                  {book.purchaseCount || 0} {book.purchaseCount === 1 ? "purchase" : "purchases"}
+                </p>
+              </div>
             </div>
           ))}
         </div>
