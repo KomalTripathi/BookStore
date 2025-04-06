@@ -7,6 +7,7 @@ import AdminDashboard from "./components/AdminDashboard";
 import AdminLogin from "./components/AdminLogin";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "./context/AuthProvider";
+import SearchResults from "./components/SearchResults";
 
 function App() {
   const [authUser] = useAuth();
@@ -29,6 +30,8 @@ function App() {
             path="/admin-dashboard"
             element={isAdmin ? <AdminDashboard /> : <Navigate to="/" />}
           />
+          <Route path="/search" element={<SearchResults />} />
+
         </Routes>
         <Toaster />
       </div>

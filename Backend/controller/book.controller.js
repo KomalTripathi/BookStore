@@ -20,3 +20,23 @@ export const getPopularBooks = async (req, res) => {
     }
   };
   
+  export const searchBooks = async (req, res) => {
+    try {
+      const query = req.query.q;
+      const regex = new RegExp(query, "i"); // case-insensitive
+  
+      const books = await Book.find({
+        $or: [
+          { name: regex },
+          { title: regex },
+          { category: regex }
+        ],
+      });
+  
+      res.status(200).json(books);
+    } catch (error) {
+      console.error("Error searching books:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  

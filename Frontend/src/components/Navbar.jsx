@@ -3,13 +3,15 @@ import Login from "./Login";
 import Logout from "./Logout";
 import { useAuth } from "../context/AuthProvider";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [authUser] = useAuth();
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [sticky, setSticky] = useState(false);
   const [walletBalance, setWalletBalance] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const element = document.documentElement;
 
@@ -49,10 +51,18 @@ function Navbar() {
     }
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery(""); // optional: clear input after navigating
+    }
+  };
+
   const navItems = (
     <>
       <li><a href="/">Home</a></li>
-      <li><a href="/course">Course</a></li>
+      <li><a href="/course">Books</a></li>
     </>
   );
 
@@ -107,27 +117,22 @@ function Navbar() {
               <ul className="menu menu-horizontal px-1">{navItems}</ul>
             </div>
 
-            <div className="hidden md:block">
-              <label className="px-3 py-2 border rounded-md flex items-center gap-2">
-                <input
-                  type="text"
-                  className="grow outline-none rounded-md px-1 dark:bg-slate-900 dark:text-white"
-                  placeholder="Search"
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="w-4 h-4 opacity-70"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </label>
-            </div>
+            {/* Search Box */}
+            <form onSubmit={handleSearch} className="hidden md:flex items-center gap-2">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="px-3 py-2 border rounded-md dark:bg-slate-900 dark:text-white"
+                placeholder="Search"
+              />
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 duration-300"
+              >
+                Go
+              </button>
+            </form>
 
             <label className="swap swap-rotate">
               <input type="checkbox" className="theme-controller" value="synthwave" />
