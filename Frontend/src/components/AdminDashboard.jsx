@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Logout from "../components/Logout"; // make sure this path is correct
+import { useAuth } from "../context/AuthProvider";
 
 function AdminDashboard() {
   const [tab, setTab] = useState("books");
   const [books, setBooks] = useState([]);
   const [users, setUsers] = useState([]);
   const [form, setForm] = useState({ name: "", price: "", category: "", image: "", title: "" });
+  const [authUser] = useAuth();
 
-  // Fetch books
   const fetchBooks = async () => {
     try {
       const res = await axios.get("http://localhost:4001/book");
@@ -18,7 +20,6 @@ function AdminDashboard() {
     }
   };
 
-  // Fetch users
   const fetchUsers = async () => {
     try {
       const res = await axios.get("http://localhost:4001/admin/users");
@@ -33,7 +34,6 @@ function AdminDashboard() {
     fetchUsers();
   }, []);
 
-  // Handle add book
   const handleAddBook = async () => {
     try {
       await axios.post("http://localhost:4001/admin/add-book", form);
@@ -56,8 +56,17 @@ function AdminDashboard() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
+    <div className="p-6 relative">
+      {/* Top Bar with Title and Logout */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        {authUser && (
+          <div className="flex items-center gap-3">
+            <span className="text-sm">Hello, Admin</span>
+            <Logout />
+          </div>
+        )}
+      </div>
 
       <div className="tabs mb-6">
         <button onClick={() => setTab("books")} className={`tab tab-bordered ${tab === "books" && "tab-active"}`}>Books</button>
@@ -66,7 +75,7 @@ function AdminDashboard() {
         <button onClick={() => setTab("popularity")} className={`tab tab-bordered ${tab === "popularity" && "tab-active"}`}>Book Popularity</button>
       </div>
 
-      {/* BOOKS LIST */}
+      {/* Books List */}
       {tab === "books" && (
         <div className="grid gap-4">
           {books.map((book) => (
@@ -81,7 +90,7 @@ function AdminDashboard() {
         </div>
       )}
 
-      {/* ADD BOOK */}
+      {/* Add Book */}
       {tab === "add" && (
         <div className="space-y-4">
           {["name", "price", "category", "image", "title"].map((field) => (
@@ -97,7 +106,7 @@ function AdminDashboard() {
         </div>
       )}
 
-      {/* USERS */}
+      {/* Users */}
       {tab === "users" && (
         <div className="grid gap-4">
           {users.map((user) => (
@@ -109,7 +118,7 @@ function AdminDashboard() {
         </div>
       )}
 
-      {/* BOOK POPULARITY */}
+      {/* Book Popularity */}
       {tab === "popularity" && (
         <div className="grid gap-4">
           {books.sort((a, b) => b.price - a.price).map((book) => (

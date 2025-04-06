@@ -4,32 +4,29 @@ import toast from "react-hot-toast";
 
 function Logout() {
   const [authUser, setAuthUser] = useAuth();
+
   const handleLogout = () => {
     try {
-      setAuthUser({
-        ...authUser,
-        user: null,
-      });
+      setAuthUser(null);
       localStorage.removeItem("Users");
-      toast.success("Logout successfully");
+      localStorage.removeItem("Admin");
+      toast.success("Logged out successfully");
 
       setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+        window.location.href = "/"; // Go to homepage regardless of role
+      }, 2000);
     } catch (error) {
       toast.error("Error: " + error);
-      setTimeout(() => {}, 2000);
     }
   };
+
   return (
-    <div>
-      <button
-        className="px-3 py-2 bg-red-500 text-white rounded-md cursor-pointer"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-    </div>
+    <button
+      className="px-3 py-2 bg-red-500 text-white rounded-md cursor-pointer"
+      onClick={handleLogout}
+    >
+      Logout
+    </button>
   );
 }
 
