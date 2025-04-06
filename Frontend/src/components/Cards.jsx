@@ -9,8 +9,7 @@ function Cards({ item }) {
   const [showConfirm, setShowConfirm] = useState(false); // modal toggle
   const [loading, setLoading] = useState(false); // button loading state
 
-  const isInsufficientBalance =
-    authUser && authUser.wallet < item.price;
+  const isInsufficientBalance = authUser && authUser.wallet < item.price;
 
   const handleConfirmPurchase = async () => {
     setLoading(true);
@@ -49,14 +48,16 @@ function Cards({ item }) {
 
   return (
     <div className="mt-4 my-3 p-3">
-      <div className="card w-92 bg-base-100 shadow-xl hover:scale-105 duration-200 dark:bg-slate-900 dark:text-white dark:border">
+      <div className="card w-92 bg-base-100 shadow-xl hover:scale-105 transform-gpu duration-200 dark:bg-slate-900 dark:text-white dark:border">
         <figure>
           <img src={item.image} alt="Book" />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">
+          <h2 className="card-title flex justify-between items-center">
             {item.name}
-            <div className="badge badge-secondary">{item.category}</div>
+            <div className="px-2 py-1 rounded-full bg-pink-500 text-white text-sm font-semibold transform duration-200">
+              {item.category}
+            </div>
           </h2>
           <p>{item.title}</p>
           <div className="card-actions justify-between items-center">
