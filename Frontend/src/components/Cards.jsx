@@ -7,8 +7,13 @@ function Cards({ item }) {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState(""); // "success" or "error"
   const [showConfirm, setShowConfirm] = useState(false); // modal toggle
+  const [loading, setLoading] = useState(false); // button loading state
+
+  const isInsufficientBalance =
+    authUser && authUser.wallet < item.price;
 
   const handleConfirmPurchase = async () => {
+    setLoading(true);
     try {
       const res = await axios.post("http://localhost:4001/user/purchase", {
         userId: authUser._id,
@@ -16,12 +21,10 @@ function Cards({ item }) {
         price: item.price,
       });
 
-      const { walletBefore, walletAfter } = res.data;
+      const { walletAfter } = res.data;
       setAuthUser({ ...authUser, wallet: walletAfter });
 
-      setToastMessage(
-        `Purchase successful!\nWallet before: $${walletBefore}\nWallet after: $${walletAfter}`
-      );
+      setToastMessage("Purchase successful");
       setToastType("success");
       setTimeout(() => setToastMessage(""), 2000);
     } catch (error) {
@@ -29,6 +32,7 @@ function Cards({ item }) {
       setToastType("error");
       setTimeout(() => setToastMessage(""), 2000);
     } finally {
+      setLoading(false);
       setShowConfirm(false); // close modal
     }
   };
@@ -55,14 +59,26 @@ function Cards({ item }) {
             <div className="badge badge-secondary">{item.category}</div>
           </h2>
           <p>{item.title}</p>
-          <div className="card-actions justify-between">
+          <div className="card-actions justify-between items-center">
             <div className="badge badge-outline">${item.price}</div>
-            <button
-              onClick={handleBuyClick}
-              className="cursor-pointer px-2 py-1 rounded-full border-[2px] hover:bg-pink-500 hover:text-white duration-200"
-            >
-              Buy Now
-            </button>
+            <div className="flex flex-col items-end">
+              <button
+                onClick={handleBuyClick}
+                disabled={isInsufficientBalance}
+                className={`cursor-pointer px-2 py-1 rounded-full border-[2px] duration-200 ${
+                  isInsufficientBalance
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "hover:bg-pink-500 hover:text-white"
+                }`}
+              >
+                {isInsufficientBalance ? "Insufficient Balance" : "Buy Now"}
+              </button>
+              {isInsufficientBalance && (
+                <p className="text-xs text-red-500 mt-1">
+                  Not enough funds in wallet
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -94,9 +110,12 @@ function Cards({ item }) {
             <div className="flex justify-center gap-4 pt-2">
               <button
                 onClick={handleConfirmPurchase}
-                className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600"
+                disabled={loading}
+                className={`bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
-                Confirm
+                {loading ? "Processing..." : "Confirm"}
               </button>
               <button
                 onClick={() => setShowConfirm(false)}
