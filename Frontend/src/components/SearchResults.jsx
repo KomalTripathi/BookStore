@@ -6,7 +6,7 @@ import Cards from "./Cards";
 function SearchResults() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { search } = useLocation(); // access ?q=...
+  const { search } = useLocation(); 
 
   useEffect(() => {
     const fetchResults = async () => {

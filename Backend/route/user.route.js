@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/signup", signup);
 router.post("/login", login);
-router.post("/purchase", purchaseBook);  // New route for purchase
+router.post("/purchase", purchaseBook);  
 router.get("/wallet/:id", getWalletBalance);
 
 export default router;

@@ -46,10 +46,9 @@ router.get("/users", async (req, res) => {
   }
 });
 
-// Book Popularity (dummy for now, you can later track purchase count)
 router.get("/book-popularity", async (req, res) => {
   try {
-    const books = await Book.find().sort({ price: -1 }); // You can use real logic later
+    const books = await Book.find().sort({ price: -1 }); 
     res.status(200).json(books);
   } catch (error) {
     res.status(500).json({ message: "Error fetching books" });

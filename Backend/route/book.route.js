@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get("/", getBook);
 router.get("/popular", getPopularBooks);
-router.get("/search", searchBooks); // 👈 Search route
+router.get("/search", searchBooks); //  Search route
 
 export default router;
