@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Air Bharat Webpage</title>
+  <style>
+    body {
+      font-family: 'Great Vibes', cursive;
+      margin: 20px;
+      background-color: #000;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      color: #dcb5ed;
+    }
+
+    p {
+      font-family: 'Georgia', serif;
+      line-height: 1.6;
+      text-align: justify;
+      margin: 20px auto;
+      width: 80%;
+    }
+
+    .image-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .image-container img {
+      max-width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+
+    .caption {
+      font-style: italic;
+      color: #ccc;
+      margin-top: 10px;
+    }
+
+    .styled-button {
+      padding: 10px 20px;
+      border: 2px solid #1d1122;
+      background-color: transparent;
+      color: #f4f0f5;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      margin: 20px;
+      border-radius: 6px;
+    }
+
+    .styled-button:hover {
+      background-color: #c98cdb;
+      color: #000;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      text-align: center;
+      color: #fff;
+    }
+
+    table, th, td {
+      border: 1px solid #999;
+      padding: 10px;
+    }
+
+    form {
+      width: 300px;
+      margin: 30px auto;
+      text-align: center;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 90%;
+      padding: 8px;
+      margin: 10px 0;
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 4px;
+    }
+
+    input[type="submit"] {
+      padding: 10px 15px;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Air Bharat</h1>
+
+  <p>
+    Welcome to <strong>Air Bharat</strong> — India's newest and most innovative airline, committed to providing a seamless flying experience with world-class service. Whether you’re traveling for business or leisure, Air Bharat ensures comfort, safety, and on-time performance every time you fly. Our mission is to connect every corner of India with affordability and efficiency while reflecting the true spirit of Indian hospitality.
+  </p>
+
+  <p>
+    From our modern fleet of aircraft to our user-friendly online booking system, Air Bharat is designed to make air travel convenient and accessible for everyone. Our dedicated crew and ground staff work tirelessly to provide a smooth and enjoyable journey from check-in to landing. Join us and discover how Air Bharat is redefining the future of aviation in India — one flight at a time.
+  </p>
+
+  <div class="image-container">
+    <img src="https://media.istockphoto.com/id/155439315/photo/passenger-airplane-flying-above-clouds-during-sunset.jpg?s=612x612&w=0&k=20&c=LJWadbs3B-jSGJBVy9s0f8gZMHi2NvWFXa3VJ2lFcL0=" alt="Air Bharat Plane">
+    <div class="caption">Soaring high with Air Bharat – India's pride in the skies</div>
+  </div>
+
+  <div style="text-align: center;">
+    <button class="styled-button">View More</button>
+  </div>
+
+  <table>
+    <tr>
+      <th>Flight Route</th>
+      <th>Departure Time</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td>Delhi ➝ Mumbai</td>
+      <td>08:30 AM</td>
+      <td>On Time</td>
+    </tr>
+    <tr>
+      <td>Bangalore ➝ Kolkata</td>
+      <td>01:45 PM</td>
+      <td>Delayed</td>
+    </tr>
+    <tr>
+      <td>Hyderabad ➝ Jaipur</td>
+      <td>06:10 PM</td>
+      <td>On Time</td>
+    </tr>
+  </table>
+
+  <form>
+    <input type="text" name="name" placeholder="Enter your name" required><br>
+    <input type="email" name="email" placeholder="Enter your email" required><br>
+    <input type="submit" value="Submit">
+  </form>
+
+</body>
+</html>
